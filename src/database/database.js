@@ -311,7 +311,7 @@ class DB {
       connectTimeout: config.db.connection.connectTimeout,
       decimalNumbers: true,
     });
-    if (setUse) {
+    if (setUse) { 
       await connection.query(`USE ${config.db.connection.database}`);
     }
     return connection;
@@ -343,6 +343,7 @@ class DB {
         connection.end();
       }
     } catch (err) {
+      console.error("ERROR", config.db?.connection)
       console.error(JSON.stringify({ message: 'Error initializing database', exception: err.message, connection: config.db.connection }));
     }
   }
