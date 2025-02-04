@@ -3,7 +3,6 @@ const app = require('../service');
 const { Role, DB } = require('../database/database.js');
 
 const testUser = { name: 'pizza diner', email: 'reg@test.com', password: 'a' };
-// const defaultAdmin = { email: 'a@jwt.com', password: 'admin', name: '常用名字' };
 let testUserId;
 
 if (process.env.VSCODE_INSPECTOR_OPTIONS) {
@@ -73,14 +72,6 @@ test('delete a store', async () => {
     expect(deleteStoreReq.body.message).toEqual('store deleted');
 })
 
-// test('delete a store that doesn\'t exist', async () => {
-//     const makeReq = await createFranchise();
-//     expect(makeReq.status).toBe(200);
-//     const newStoreReq = await createStore(makeReq);
-//     expect(newStoreReq.status).toBe(200);
-//     const deleteStoreReq = await request(app).delete('/api/franchise/' + "oneTwoThree" + '/store/' + 50000).set('Authorization', `Bearer ${defaultAdminAuthToken}`)
-//     expect(deleteStoreReq.body.message).toEqual('store deleted');
-// })
 
 test('delete a franchise', async () => {
     const email = Math.random().toString(36).substring(2, 12) + '@test.com'

@@ -1,15 +1,13 @@
 const request = require('supertest');
 const app = require('../service');
 const {DB} = require('../database/database')
-// const { createFranchise } = require('./franchiseRouter.test')
 const {Role} = require('../model/model')
-
 const testUser = { name: 'pizza diner', email: 'reg@test.com', password: 'a' };
 const admin = { email: 'a@jwt.com', password: 'admin', name: '常用名字' };
-// const defaultAdmin = { email: 'a@jwt.com', password: 'admin', name: '常用名字' };
-// const admin = {name: 'fake test admin', email: 'fakeAdmin@jwt.com', password: 'a', roles: [{ role: Role.Admin }]}
+
+
+
 let defaultAdminAuthToken;
-let testUserId;
 
 if (process.env.VSCODE_INSPECTOR_OPTIONS) {
     jest.setTimeout(60 * 1000 * 5); // 5 minutes
@@ -22,22 +20,10 @@ const testFranchise = {
     "admins": []
 }
 
-// beforeAll(async () => {
-// //   defaultAdminAuthToken = loginRes.body.token;
-//     // admin.email = Math.random().toString(36).substring(2, 12) + '@test.com';
-//     // const registerRes = await request(app).post('/api/auth').send(admin);
-//     // DB.addUser(admin);
-//     const loginRes = await request(app).put('/api/auth').send(admin);
-//     console.log(loginRes.body)
-//     defaultAdminAuthToken = loginRes.body.token;
-// });
-
 function randomName() {
     return Math.random().toString(36).substring(2, 12);
   }
 
-// let defaultAdminAuthToken;
-let defaultAdmin  = {}
 async function createAdminUser() {
   let user = { password: 'toomanysecrets', roles: [{ role: Role.Admin }] };
   user.name = randomName();
