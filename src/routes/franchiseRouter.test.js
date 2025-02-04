@@ -1,19 +1,36 @@
 const request = require('supertest');
 const app = require('../service');
-const db = require('../database/database')
+const { Role, DB } = require('../database/database.js');
 
 const testUser = { name: 'pizza diner', email: 'reg@test.com', password: 'a' };
-const defaultAdmin = { email: 'a@jwt.com', password: 'admin', name: '常用名字' };
-let defaultAdminAuthToken;
+// const defaultAdmin = { email: 'a@jwt.com', password: 'admin', name: '常用名字' };
 let testUserId;
 
 if (process.env.VSCODE_INSPECTOR_OPTIONS) {
     jest.setTimeout(60 * 1000 * 5); // 5 minutes
 }
 
+function randomName() {
+    return Math.random().toString(36).substring(2, 12);
+  }
+
+let defaultAdminAuthToken;
+let defaultAdmin  = {}
+async function createAdminUser() {
+  let user = { password: 'toomanysecrets', roles: [{ role: Role.Admin }] };
+  user.name = randomName();
+  user.email = user.name + '@admin.com';
+
+  user = await DB.addUser(user);
+  return { ...user, password: 'toomanysecrets' };
+}
+
 beforeAll(async () => {
-  const loginRes = await request(app).put('/api/auth').send(defaultAdmin);
-  defaultAdminAuthToken = loginRes.body.token;
+    const user = await createAdminUser();
+    console.log('USER, PASSWORD', user);
+    const loginRes = await request(app).put('/api/auth').send(user);
+    console.log("LOGGED IN ADMIN:", loginRes.body);
+    defaultAdminAuthToken = loginRes.body.token;
 });
 
 const testFranchise = {
