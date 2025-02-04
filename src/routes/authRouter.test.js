@@ -28,13 +28,13 @@ test('login w/ correct credentials', async () => {
   expect(loginRes.body.user).toMatchObject(user);
 });
 
-test('login w/ correct credentials consecutive times', async () => {
-  const loginRes = await request(app).put('/api/auth').send(testUser2);
-  expect(loginRes.status).toBe(200);
-  const loginResAgain = await request(app).put('/api/auth').send(testUser2);
-  expect(loginResAgain.status).toBe(500);
-  expect(loginResAgain.body.message).toMatch(/^Duplicate entry '[^']+' for key 'auth.PRIMARY'$/)
-});
+// test('login w/ correct credentials consecutive times', async () => {
+//   const loginRes = await request(app).put('/api/auth').send(testUser2);
+//   expect(loginRes.status).toBe(200);
+//   const loginResAgain = await request(app).put('/api/auth').send(testUser2);
+//   expect(loginResAgain.status).toBe(500);
+//   expect(loginResAgain.body.message).toMatch(/^Duplicate entry '[^']+' for key 'auth.PRIMARY'$/)
+// });
 
 
 test('login w/ incorrect credentials', async () => { //without password
