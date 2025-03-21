@@ -1,6 +1,3 @@
-
-
-
 #!/bin/bash
 
 # Check if host is provided as a command line argument
@@ -21,60 +18,44 @@ token=$2
 
 echo "starting process"
 
-
 # Function to cleanly exit
 cleanup() {
   echo "Terminating background processes..."
-  kill $pid1 $pid2 $pid3
+  kill $pid1 $pid2 $pid3 $pid4 $pid5
   exit 0
 }
 
 # Trap SIGINT (Ctrl+C) to execute the cleanup function
 trap cleanup SIGINT
 
-# Simulate a log in
-# while true; do
-#   curl -v -X PUT \
-#   -H "Content-Type: application/json" \
-#   -d '{
-#     "name": "TEST 1",
-#     "email": "t@gmail.com",
-#     "password": "fakepassword"
-#   }' \
-#   $host/api/auth
-#   echo "Logging in User..."
-#   sleep $((RANDOM % 2 + 1))
-# done &
-# pid1=$!
-
-
-
-# # Simulate deleting a greeting
-# while true; do
-#   curl -s -X DELETE "$host/greeting" > /dev/null
-#   echo "Deleting greeting..."
-#   sleep $((RANDOM % 10 + 1))
-# done &
-# pid3=$!
-
-
-
-# # # get order
-# while true; do
-#   curl -s $host/api/order/menu
-#   sleep 3
-# done
-# pid4=$!
-
-# make order
- while true; do
-  # make order
+# Make order
+while true; do
   curl -s -X POST $host/api/order -H 'Content-Type: application/json' -d '{"franchiseId": 40, "storeId":10, "items":[{ "menuId": 10, "description": "No toppings, no sauces, just carb", "price": 0.50 }]}'  -H "Authorization: Bearer $token"
   sleep 1
-done
+done &
 pid5=$!
 
-# 
+# Simulate a log in
+while true; do
+  curl -v -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "TEST 1",
+    "email": "t@gmail.com",
+    "password": "fakepassword"
+  }' \
+  $host/api/auth
+  echo "Logging in User..."
+  sleep $((RANDOM % 5 + 1))
+done &
+pid1=$!
+
+# Get order
+while true; do
+  curl -s $host/api/order/menu
+  sleep 3
+done &
+pid4=$!
 
 
 

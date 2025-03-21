@@ -219,8 +219,6 @@ function sendMetricsPeriodically(period) {
     }, period);
 }
 
-
-
 function sendMetricsToGrafana(metrics) {
     const body = JSON.stringify(metrics);
     console.log('body', body)
@@ -242,9 +240,6 @@ function sendMetricsToGrafana(metrics) {
             console.error('Error pushing metrics:', error);
         });
 }
-
-
-
 
 module.exports = {
     requestTracker,
