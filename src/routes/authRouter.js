@@ -84,9 +84,6 @@ authRouter.put(
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await DB.getUser(email, password);
-    if (!user) {
-      metrics.incrementFailedAuthAttempts()
-    } 
     const auth = await setAuth(user);
     res.json({ user: user, token: auth });
   })

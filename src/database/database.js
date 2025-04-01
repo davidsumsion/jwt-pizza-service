@@ -65,6 +65,7 @@ class DB {
       const userResult = await this.query(connection, `SELECT * FROM user WHERE email=?`, [email]);
       const user = userResult[0];
       if (!user || !(await bcrypt.compare(password, user.password))) {
+        metrics.incrementFailedAuthAttempts()
         throw new StatusCodeError('unknown user', 404);
       }
 
