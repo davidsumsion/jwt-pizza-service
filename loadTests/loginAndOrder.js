@@ -1,4 +1,5 @@
-import { sleep, check, group, fail } from 'k6'
+/* eslint-disable */
+import { sleep, check, fail } from 'k6'
 import http from 'k6/http'
 import jsonpath from 'https://jslib.k6.io/jsonpath/1.0.2/index.js'
 
