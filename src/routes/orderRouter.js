@@ -89,7 +89,7 @@ orderRouter.post(
     });
     const j = await r.json();
     if (r.ok) {
-      logger.log('info', 'factory', { order, reportSlowPizzaToFactoryUrl: j.reportUrl, jwt: 'true', info: j.body })
+      logger.log('info', 'factory', { order, reportSlowPizzaToFactoryUrl: j.reportUrl, jwt: 'true', info: j })
       res.send({ order, reportSlowPizzaToFactoryUrl: j.reportUrl, jwt: j.jwt });
       const endTime = Date.now();
       const totalTime = endTime - startTime
@@ -99,7 +99,7 @@ orderRouter.post(
       const revenue = orderReq.items.reduce((sum, item) => sum + item.price, 0);
       metrics.addRevenue(revenue)
     } else {
-      logger.log('error', 'factory', { order, reportSlowPizzaToFactoryUrl: j.reportUrl, jwt: 'false', info: j.body })
+      logger.log('error', 'factory', { order, reportSlowPizzaToFactoryUrl: j.reportUrl, jwt: 'false', info: j})
       metrics.incrementFailedPizzas()
       res.status(500).send({ message: 'Failed to fulfill order at factory', reportPizzaCreationErrorToPizzaFactoryUrl: j.reportUrl });
     }
