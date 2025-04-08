@@ -95,7 +95,7 @@ orderRouter.post(
       const totalTime = endTime - startTime
       metrics.pizzaCreationLatencyTracking(totalTime)
       metrics.incrementSoldPizzas()
-      console.log('incrementing Pizzas')
+      // console.log('incrementing Pizzas')
       const revenue = orderReq.items.reduce((sum, item) => sum + item.price, 0);
       metrics.addRevenue(revenue)
     } else {

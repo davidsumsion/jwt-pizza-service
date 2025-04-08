@@ -16,8 +16,8 @@ let pizzaCreationLatencies = []
 
 
 function requestTracker(req, res, next) {
-    console.log('received request')
-    console.log('req.method', req.method)
+    // console.log('received request')
+    // console.log('req.method', req.method)
     switch (req.method) {
         case ('PUT'):
             putRequests += 1
@@ -159,12 +159,12 @@ function addRevenue(revenue) {
 }
 
 function pizzaCreationLatencyTracking(totalTime) {
-    console.log('pizzaCreationLatencyTracking', pizzaCreationLatencies)
+    // console.log('pizzaCreationLatencyTracking', pizzaCreationLatencies)
     pizzaCreationLatencies.push(constructMetric(PIZZA_REQ_LATENCY, totalTime, GAUGE, '1', {}, TYPE_DOUBLE))
 }
 
 function userMetrics() {
-    console.log('activeUsers', activeUsers)
+    // console.log('activeUsers', activeUsers)
     return [constructMetric(ACTIVE_USER_COUNT, activeUsers, GAUGE, '1', {}, TYPE_INT)]
 }
 
@@ -191,7 +191,7 @@ function pizzaMetrics() {
         constructMetric(CREATION_FAILURE, creationFailPizzas, GAUGE, '1', {}, TYPE_INT),
         constructMetric(REVENUTE_PER_MINUTE, revenuePizzas, GAUGE, '1', {}, TYPE_DOUBLE)
     ]
-    console.log('sold pizzas:', soldPizzas)
+    // console.log('sold pizzas:', soldPizzas)
     soldPizzas = 0
     creationFailPizzas = 0
     revenuePerMinMetric = 0
@@ -214,14 +214,14 @@ function sendMetricsPeriodically(period) {
             const reqMetrics = { resourceMetrics: [{ scopeMetrics: [{ metrics }] }] }
             sendMetricsToGrafana(reqMetrics);
         } catch (error) {
-            console.log('Error sending metrics', error);
+            console.error('Error sending metrics', error);
         }
     }, period);
 }
 
 function sendMetricsToGrafana(metrics) {
     const body = JSON.stringify(metrics);
-    console.log('body', body)
+    // console.log('body', body)
     fetch(`${config.metrics.url}`, {
         method: 'POST',
         body: body,
@@ -232,9 +232,10 @@ function sendMetricsToGrafana(metrics) {
                 response.text().then((text) => {
                     console.error(`Failed to push metrics data to Grafana: ${text}\n${body}`);
                 });
-            } else {
-                console.log(`Pushed metrics`);
-            }
+            } 
+            // else {
+            //     console.log(`Pushed metrics`);
+            // }
         })
         .catch((error) => {
             console.error('Error pushing metrics:', error);

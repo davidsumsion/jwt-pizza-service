@@ -107,7 +107,7 @@ class DB {
     try {
       await this.query(connection, `INSERT INTO auth (token, userId) VALUES (?, ?)`, [token, userId]);
       metrics.incrementActiveUsers()
-      console.log('activeUser Added!', metrics.activeUsers)
+      // console.log('activeUser Added!', metrics.activeUsers)
     } finally {
       connection.end();
     }

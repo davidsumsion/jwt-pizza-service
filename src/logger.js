@@ -55,8 +55,8 @@ class Logger {
         Authorization: `Bearer ${config.logging.userId}:${config.logging.apiKey}`,
       },
     }).then((res) => {
-      if (!res.ok) console.log('Failed to send log to Grafana'); // someone should be getting out of bed if logging isn't working for 30 seconds(or a minute)
-      else console.log('sent log to graphana')
+      if (!res.ok) console.error('Failed to send log to Grafana'); // someone should be getting out of bed if logging isn't working for 30 seconds(or a minute)
+      // else console.log('sent log to graphana')
     });
   }
 }
