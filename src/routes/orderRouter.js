@@ -102,6 +102,8 @@ orderRouter.post(
     const orderReq = req.body;
     const order = await DB.addDinerOrder(req.user, orderReq);
     const menu = await DB.getMenu();
+    res.status(500).send({ message: 'Test Fail', order: order?.order.items, menu: menu});
+
     if (!validateOrder(order?.order?.items, menu)) {
       throw new Error('Invalid order', 400);
     }
