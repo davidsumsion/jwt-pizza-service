@@ -22,7 +22,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 const authLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 5,
