@@ -3,7 +3,7 @@ const app = require('../service');
 const {DB} = require('../database/database')
 const {Role} = require('../model/model')
 const testUser = { name: 'pizza diner', email: 'reg@test.com', password: 'a' };
-const admin = { email: 'a@jwt.com', password: 'admin', name: '常用名字' };
+const admin = { email: 'myOtherAdmin@jwt.com', password: 'superSecretPassword', name: '常用名字' };
 
 
 
