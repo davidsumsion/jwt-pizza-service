@@ -75,23 +75,19 @@ orderRouter.get(
 );
 
 function validateOrder(items, menu) {
-  const invalidOrder = false;
+  let invalidOrder = false;
   for (const item of items) {
       const menuItem = menu.find(m => m.id === item.menuId);
       if (!menuItem) {
           invalidOrder = true;
           break;
       }
-      if (menuItem.description !== item.description) {
-        invalidOrder = true;
-        break;
-      }
       if (menuItem.price !== item.price) {
         invalidOrder = true;
         break;
       }
   }
-  return invalidOrder
+  return !invalidOrder
 }
 
 // createOrder
