@@ -6,6 +6,7 @@ const version = require('./version.json');
 const config = require('./config.js');
 const metrics = require('./metrics.js')
 const logger = require('./logger.js')
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 app.use(express.json());
@@ -21,9 +22,18 @@ app.use((req, res, next) => {
   next();
 });
 
+
+const authLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+  message: 'Too many requests from this IP, please try again after a minute.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 const apiRouter = express.Router();
 app.use('/api', apiRouter);
-apiRouter.use('/auth', authRouter);
+apiRouter.use('/auth', authLimiter, authRouter);
 apiRouter.use('/order', orderRouter);
 apiRouter.use('/franchise', franchiseRouter);
 
