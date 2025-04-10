@@ -74,6 +74,26 @@ orderRouter.get(
   })
 );
 
+function validateOrder(items, menu) {
+  const invalidOrder = false;
+  for (const item of items) {
+      const menuItem = menu.find(m => m.id === item.menuId);
+      if (!menuItem) {
+          invalidOrder = true;
+          break;
+      }
+      if (menuItem.description !== item.description) {
+        invalidOrder = true;
+        break;
+      }
+      if (menuItem.price !== item.price) {
+        invalidOrder = true;
+        break;
+      }
+  }
+  return invalidOrder
+}
+
 // createOrder
 orderRouter.post(
   '/',
@@ -81,6 +101,11 @@ orderRouter.post(
   asyncHandler(async (req, res) => {
     const orderReq = req.body;
     const order = await DB.addDinerOrder(req.user, orderReq);
+    const menu = await DB.getMenu();
+    if (!validateOrder(order?.order?.items, menu)) {
+      throw new Error('Invalid order', 400);
+    }
+
     const startTime = Date.now();
     const r = await fetch(`${config.factory.url}/api/order`, {
       method: 'POST',
